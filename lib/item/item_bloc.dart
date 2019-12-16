@@ -8,13 +8,31 @@ import 'index.dart';
 class ItemBloc extends HydratedBloc<ItemEvent, ItemState> {
   final String id;
 
-  ItemBloc(this.id);
+  // ItemBloc(this.id);
   @override
   Future<void> close() async{
+    print('$id is close');
     super.close();
   }
 
-  ItemState get initialState => super.initialState ?? (Item(id,0));
+  factory ItemBloc(String id) {
+    if (_cache.containsKey(id)) {
+      return _cache[id];
+    } else {
+      final bloc = ItemBloc._(id);
+      _cache[id] = bloc;
+      dependeds[id] = 0;
+      return bloc;
+    }
+  }
+
+  static final Map<String, ItemBloc> _cache =
+      <String, ItemBloc>{};
+  static final  Map<String,int> dependeds = <String,int> {};
+
+  ItemState get initialState => super.initialState ?? (ItemState(Item(id,0)));
+
+  ItemBloc._(this.id);
 
   @override
   Stream<ItemState> mapEventToState(
