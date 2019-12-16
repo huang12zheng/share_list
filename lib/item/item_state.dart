@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'index.dart';
 import 'item_model.dart';
+import 'widget/desc.dart';
 
 class ItemState extends Equatable {
   final Item item;
@@ -40,7 +41,18 @@ class ItemWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             Text('${item.id}'),
-            Container(child: Text('${item.desc}'),color: Colors.red,),
+            GestureDetector(
+              onTap: ()=>
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (BuildContext ctx) {
+                    return BlocProvider.value(
+                      value: BlocProvider.of<ItemBloc>(context),
+                      child: Detail(),
+                    );
+                  })
+                ),
+              child: Container(child: Text('${item.desc}'),color: Colors.red,)
+            ),
             Text('${item.type}'),
           ],
         ),
