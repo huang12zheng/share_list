@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer' as developer;
 
+import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 import 'index.dart';
@@ -11,8 +12,13 @@ class ItemBloc extends HydratedBloc<ItemEvent, ItemState> {
   // ItemBloc(this.id);
   @override
   Future<void> close() async{
-    print('$id is close');
-    super.close();
+    dependeds[id]-=1;
+    debugPrint('close $id count: ${dependeds[id]}');
+    if (dependeds[id] == 0)
+    {
+      _cache.remove(id); /// check index
+      super.close();
+    }
   }
 
   factory ItemBloc(String id) {
@@ -54,5 +60,10 @@ class ItemBloc extends HydratedBloc<ItemEvent, ItemState> {
   @override
   Map<String, dynamic> toJson(ItemState state) {
     return {'id': state.item.id,'desc': state.item.desc};
+  }
+
+  onProvider(){
+    dependeds[id]+=1;
+    debugPrint('onProvider $id count: ${dependeds[id]}');
   }
 }

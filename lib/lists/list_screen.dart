@@ -19,11 +19,15 @@ class ListWidget extends StatelessWidget {
       child: ListView.builder(
         itemCount: items.length,
         itemBuilder: (BuildContext context, int index) {
-          return BlocProvider.value(
-            value: ItemBloc(items[index].id),
+          // return BlocProvider.value(
+          //   value: ItemBloc(items[index].id),
+          //   child: ItemDescWidget(),
+          // );
+          /// value method would be no GC
+          return BlocProvider(
+            create: (_)=> ItemBloc(items[index].id)..onProvider(),
             child: ItemDescWidget(),
           );
-          
         },
       ),
     );
