@@ -12,8 +12,9 @@ class HotPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => ListsBloc(
-        // initHotData
-        hotData
+        initHotData,
+        // hotData,
+        type: 'hot'
       ),
       child: ListScrean(),
     );

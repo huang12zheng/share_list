@@ -7,6 +7,7 @@ import 'package:share_lists/trend_page.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   BlocSupervisor.delegate = await HydratedBlocDelegate.build();
+  (BlocSupervisor.delegate as HydratedBlocDelegate).storage.clear();
   runApp(MyApp());
 } 
 

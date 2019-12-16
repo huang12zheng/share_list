@@ -7,8 +7,9 @@ import 'package:share_lists/lists/index.dart';
 
 class ListsBloc extends Bloc<ListsEvent, ListsState> {
   final List<Item> items;
+  final String type;
 
-  ListsBloc(this.items);
+  ListsBloc(this.items, {this.type ='trend'});
 
   @override
   Future<void> close() async{

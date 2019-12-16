@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:share_lists/item/index.dart';
 import 'package:share_lists/item_data/item_factory.dart';
 
-class ListWidget extends StatelessWidget {
+import 'index.dart';
+
+class ListWidget extends StatefulWidget {
   const ListWidget({
     Key key,
     @required this.items,
@@ -12,12 +14,25 @@ class ListWidget extends StatelessWidget {
   final List<Item> items;
 
   @override
+  _ListWidgetState createState() => _ListWidgetState();
+}
+
+class _ListWidgetState extends State<ListWidget> {
+  final _scrollController = ScrollController();
+  final _scrollThreshold = 100.0;
+   @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+  @override
   Widget build(BuildContext context) {
     return Container(
-      height: 400,
+      height: 200,
       width: 150,
       child: ListView.builder(
-        itemCount: items.length,
+        controller: _scrollController,
+        itemCount: widget.items.length,
         itemBuilder: (BuildContext context, int index) {
           // return BlocProvider.value(
           //   value: ItemBloc(items[index].id),
@@ -25,13 +40,30 @@ class ListWidget extends StatelessWidget {
           // );
           /// value method would be no GC
           return BlocProvider(
-            create: (_)=> ItemBloc(items[index].id)..onProvider(),
+            create: (_)=> ItemBloc(widget.items[index].id)..onProvider(),
             child: ItemDescWidget(),
           );
         },
       ),
     );
   }
+
+  void _onScroll() {
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.position.pixels;
+    if (maxScroll - currentScroll <= _scrollThreshold) {
+      final bloc = BlocProvider.of<ListsBloc>(context);
+      bloc.add(Fetch(bloc.type));
+      // bloc.close();
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
 }
 
 class ItemDescWidget extends StatelessWidget {

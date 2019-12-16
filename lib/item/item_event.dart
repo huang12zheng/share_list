@@ -20,7 +20,7 @@ class AddEvent extends ItemEvent {
   Stream<ItemState> applyAsync(
       ItemState state, ItemBloc bloc) async* {
     try {
-      yield ItemState(Item(state.item.id,state.item.desc+1));
+      yield ItemState(Item(state.item.id,state.item.desc+1,type:state.item.type));
     } catch (_, stackTrace) {
       developer.log('$_', name: 'LoadItemEvent', error: _, stackTrace: stackTrace);
     }
@@ -41,7 +41,26 @@ class EditEvent extends ItemEvent {
   Stream<ItemState> applyAsync(
       ItemState state, ItemBloc bloc) async* {
     try {
-      yield ItemState(Item(state.item.id,desc));
+      yield ItemState(Item(state.item.id,desc,type:state.item.type));
+    } catch (_, stackTrace) {
+      developer.log('$_', name: 'LoadItemEvent', error: _, stackTrace: stackTrace);
+    }
+  }
+}
+
+class RefreshEvent extends ItemEvent {
+  RefreshEvent(this.item);
+  final Item item;
+
+   
+  @override
+  String toString() => 'LoadItemEvent';
+  
+  @override
+  Stream<ItemState> applyAsync(
+      ItemState state, ItemBloc bloc) async* {
+    try {
+      yield ItemState(item);
     } catch (_, stackTrace) {
       developer.log('$_', name: 'LoadItemEvent', error: _, stackTrace: stackTrace);
     }

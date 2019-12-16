@@ -31,7 +31,7 @@ class ItemBloc extends HydratedBloc<ItemEvent, ItemState> {
       return bloc;
     }
   }
-
+  static get cache => _cache;
   static final Map<String, ItemBloc> _cache =
       <String, ItemBloc>{};
   static final  Map<String,int> dependeds = <String,int> {};

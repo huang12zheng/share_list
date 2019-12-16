@@ -12,8 +12,8 @@ class TrendPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => ListsBloc(
-        // initDatas
-        datas
+        initDatas
+        // datas
       ),
       child: ListScrean(),
     );
