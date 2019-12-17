@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:share_lists/item/index.dart';
-import 'package:share_lists/item_data/item_factory.dart';
 
 import 'index.dart';
 
@@ -52,8 +51,9 @@ class _ListWidgetState extends State<ListWidget> {
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.position.pixels;
     if (maxScroll - currentScroll <= _scrollThreshold) {
+      //ignore: close_sinks
       final bloc = BlocProvider.of<ListsBloc>(context);
-      bloc.add(Fetch(bloc.type));
+      bloc.add(Fetch(BlocProvider.of<ListsBloc>(context).type));
       // bloc.close();
     }
   }

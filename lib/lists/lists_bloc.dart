@@ -6,10 +6,12 @@ import 'package:share_lists/item/item_model.dart';
 import 'package:share_lists/lists/index.dart';
 
 class ListsBloc extends Bloc<ListsEvent, ListsState> {
+  // @deprecated
   final List<Item> items;
+  final ListHandle handle;
   final String type;
 
-  ListsBloc(this.items, {this.type ='trend'});
+  ListsBloc(this.items, this.handle, {this.type ='trend'});
 
   @override
   Future<void> close() async{
