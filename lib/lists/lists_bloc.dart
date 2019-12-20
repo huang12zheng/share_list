@@ -6,7 +6,7 @@ import 'package:share_lists/item/item_model.dart';
 import 'package:share_lists/lists/index.dart';
 
 class ListsBloc extends Bloc<ListsEvent, ListsState> {
-  // @deprecated
+  @deprecated
   final List<Item> items;
   final ListHandle handle;
   final String type;
