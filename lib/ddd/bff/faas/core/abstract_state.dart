@@ -19,9 +19,15 @@ class UnInitState extends StateBase {
 abstract class InState extends StateBase {
   @override
   List<Object> get props => ['$runtimeType'];
+}
 
+abstract class DeriveState<Bloc> extends InState {
+  final Map<dynamic,dynamic> params = {};
   @override
-  Widget call();
+  List<Object> get props => ['$runtimeType'];
+
+  Widget call() => dervice();
+  Widget dervice();
 }
 
 abstract class ListState<T> extends InState {
@@ -41,9 +47,10 @@ abstract class ModelState<T extends ModelBase> extends InState{
 
   ModelState(this.bean);
 
-  String toString() {
-     return '$runtimeType { ${bean == null ? '' :bean.toJson().toString() } }';
-  }
+  // String toString() {
+  //    return '$runtimeType { ${bean == null ? '' :bean.toJson().toString() } }';
+  // }
+  String toString()=> '$runtimeType { ${(bean?.toJson())??''} }';
 
   List<Object> get props => [bean];
 }

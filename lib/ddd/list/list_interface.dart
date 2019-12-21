@@ -10,7 +10,7 @@ abstract class Listable<T>{
   Future<List<T>> add(T item);
   Future<List<T>> remove(T item);
   Future<List<T>> fetch();
-  Future<bool> updateItem(Itemable<T> itemable,T item);
+  // Future<bool> updateItem(Itemable<T> itemable,T item);
   List<T> fliter(bool test(T element)); // Fliterable
   List<T> fromItem(List<T> items);
 }

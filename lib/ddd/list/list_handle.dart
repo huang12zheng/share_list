@@ -11,7 +11,7 @@ abstract class ListHandle<T> {
   /// items+ _fetch
   Future<List<T>>   fetch(List<T> items);
   List<T>          fliter(List<T> items,bool test(T element)); // Fliterable
-  Future<bool> updateItem(Itemable<T> itemable,T item);
+  // Future<bool> updateItem(Itemable<T> itemable,T item);
 }
 
 class ListHandleImpl<T> extends ListHandle<T>{
@@ -49,9 +49,9 @@ class ListHandleImpl<T> extends ListHandle<T>{
     return _items;
   }
 
-  @override
-  Future<bool> updateItem(Itemable<T> itemable, T item) {
-    return itemable.updateFromList(item);
-  }
+  // @override
+  // Future<bool> updateItem(Itemable<T> itemable, T item) {
+  //   return itemable.updateFromList(item);
+  // }
 }
 

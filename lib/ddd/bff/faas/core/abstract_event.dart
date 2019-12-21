@@ -23,4 +23,12 @@ abstract class ResetEvent extends EventBase{
 abstract class PatchEvent extends EventBase{
   Stream<InState> applyAsync(
      covariant InState state, BlocBase bloc);
+
+}
+/// prototype is filter
+abstract class DeriveEvent extends EventBase{
+  Stream<DeriveState> applyAsync(
+    covariant InState state, BlocBase bloc) async*{
+      yield (state as DeriveState)..params['bloc']=bloc;
+    }
 }

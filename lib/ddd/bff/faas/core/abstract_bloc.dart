@@ -16,7 +16,8 @@ abstract class BlocBase extends HydratedBloc<EventBase,StateBase> {
   ) async* {
     if (event is! InitEvent || event is! ResetEvent || event is! PatchEvent)
       throw Exception('it is out of architecture');
-    yield* event.applyAsync(state, this);
+    // yield* event.applyAsync(state, this);
+    yield* applyAsync(event);
   }
   /// TODO: handle reCall
   Stream<InState> applyAsync(EventBase event) => event.applyAsync(state, this);
@@ -26,6 +27,9 @@ abstract class BlocBase extends HydratedBloc<EventBase,StateBase> {
 
   @override
   Map<String, dynamic> toJson(covariant InState state);
+
+  @override
+  String toString() => '$runtimeType $id';
 }
 
 // / should never dispatch event unless InitEvent
