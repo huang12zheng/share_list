@@ -7,3 +7,4 @@ export 'abstract_event.dart';
 export 'abstract_model.dart';
 export 'abstract_state.dart';
 export 'base_widget.dart';
+export 'util/index.dart';

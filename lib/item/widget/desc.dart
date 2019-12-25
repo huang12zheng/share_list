@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:share_lists/ddd/bff/faas/core/index.dart';
 
 import '../index.dart';
 
@@ -11,7 +12,7 @@ class Detail extends StatelessWidget {
     return 
     BlocBuilder<ItemBloc, ItemState>(
       builder: (context, state) {
-        final item = state.item;
+        final item = state.bean;
         TextEditingController controller = TextEditingController(text: item.desc.toString());
         return Scaffold(
           appBar: AppBar(),

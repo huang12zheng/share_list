@@ -1,68 +1,32 @@
-import 'dart:async';
-import 'dart:developer' as developer;
+import 'package:share_lists/ddd/bff/faas/core/index.dart';
+import 'package:share_lists/ddd/bff/faas/list/item/abstract_item_event.dart';
 
-import 'package:share_lists/item/index.dart';
-import 'package:meta/meta.dart';
+import 'index.dart';
 
-@immutable
-abstract class ItemEvent {
-  Stream<ItemState> applyAsync(
-      ItemState state, ItemBloc bloc);
-}
-
-
-class AddEvent extends ItemEvent {
-   
+class AddEvent extends ItemPatchEvent<ItemModel> {
   @override
-  String toString() => 'LoadItemEvent';
-
-  @override
-  Stream<ItemState> applyAsync(
-      ItemState state, ItemBloc bloc) async* {
-    try {
-      yield ItemState(Item(state.item.id,state.item.desc+1,type:state.item.type));
-    } catch (_, stackTrace) {
-      developer.log('$_', name: 'LoadItemEvent', error: _, stackTrace: stackTrace);
-    }
+  InState modelToState(ItemModel model) {
+    return ItemState(ItemModel(model.id,model.desc+1,type:model.type));
   }
 }
 
 
-class EditEvent extends ItemEvent {
+class EditEvent extends ItemPatchEvent<ItemModel> {
   EditEvent(this.desc);
 
-   
-  @override
-  String toString() => 'LoadItemEvent';
-
   final int desc;
-  
+  /// [copyWith] is need
   @override
-  Stream<ItemState> applyAsync(
-      ItemState state, ItemBloc bloc) async* {
-    try {
-      yield ItemState(Item(state.item.id,desc,type:state.item.type));
-    } catch (_, stackTrace) {
-      developer.log('$_', name: 'LoadItemEvent', error: _, stackTrace: stackTrace);
-    }
+  InState modelToState(ItemModel model) {
+    return ItemState(ItemModel(model.id,desc,type:model.type));
   }
 }
 
-class RefreshEvent extends ItemEvent {
+class RefreshEvent extends ItemPatchEvent<ItemModel> {
   RefreshEvent(this.item);
-  final Item item;
-
-   
+  final ItemModel item;
   @override
-  String toString() => 'LoadItemEvent';
-  
-  @override
-  Stream<ItemState> applyAsync(
-      ItemState state, ItemBloc bloc) async* {
-    try {
-      yield ItemState(item);
-    } catch (_, stackTrace) {
-      developer.log('$_', name: 'LoadItemEvent', error: _, stackTrace: stackTrace);
-    }
+  InState modelToState(ItemModel model) {
+    return ItemState(item);
   }
 }

@@ -1,5 +1,7 @@
 import 'index.dart';
-abstract class ItemBloc<State extends ModelState> extends BlocBase{
+
+/// [Event] of [ItemBloc] is [InitEvent],[PatchEvent]
+abstract class ItemBlocBase<State extends ModelState> extends BlocBase{
 
   // @override
   // Future<void> close() async{
@@ -49,7 +51,7 @@ class UnItemState extends UnInitState{
   Widget call()=> Container();
 }
 
-abstract class InItemState extends StateBase {
+abstract class InItemState extends InState {
   @override
   List<Object> get props => ['$runtimeType'];
 

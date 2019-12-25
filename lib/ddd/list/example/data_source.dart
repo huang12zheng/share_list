@@ -2,8 +2,8 @@ import 'package:share_lists/ddd/list/support/remote_interface.dart';
 
 import 'index.dart';
 
-class ItemDataSource extends RemoteDataSource<Item>{
-  final List<Item> source;
+class ItemDataSource extends RemoteDataSource<ItemModel>{
+  final List<ItemModel> source;
 
   ItemDataSource(this.source);
 
@@ -11,11 +11,11 @@ class ItemDataSource extends RemoteDataSource<Item>{
   Future<bool> add(item) => null;
 
   // @override
-  // Future<List<Item>> fetch() async {
+  // Future<List<ItemModel>> fetch() async {
   //   return fetchMore(length,source);
   // }
   @override
-  Future<List<Item>> fetch(Map<String, dynamic> params) async {
+  Future<List<ItemModel>> fetch(Map<String, dynamic> params) async {
     return fetchMore(params['length'],source);
   }
 
@@ -25,7 +25,7 @@ class ItemDataSource extends RemoteDataSource<Item>{
   @override
   Future<bool> update(item)  => null;
   
-  List<Item> fetchMore(int itemLength,List<Item> source) {
+  List<ItemModel> fetchMore(int itemLength,List<ItemModel> source) {
     final bool hasReachedMax = (itemLength+5)<source.length;
     final int end = hasReachedMax ? (itemLength+5) : source.length;
     print('fetch $itemLength to $end');

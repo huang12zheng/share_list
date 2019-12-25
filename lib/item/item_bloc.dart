@@ -1,15 +1,9 @@
-import 'dart:async';
-import 'dart:developer' as developer;
+import 'package:share_lists/ddd/bff/faas/faas.dart';
+import 'package:share_lists/item/widget/wrap/item_wrap.dart';
 
-import 'package:flutter/material.dart';
-import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'item_model.dart';
 
-import 'index.dart';
-
-class ItemBloc extends HydratedBloc<ItemEvent, ItemState> {
-  final String id;
-
-  // ItemBloc(this.id);
+class ItemBloc extends ItemBlocBase{
   @override
   Future<void> close() async{
     dependeds[id]-=1;
@@ -31,39 +25,36 @@ class ItemBloc extends HydratedBloc<ItemEvent, ItemState> {
       return bloc;
     }
   }
+
   static get cache => _cache;
   static final Map<String, ItemBloc> _cache =
       <String, ItemBloc>{};
   static final  Map<String,int> dependeds = <String,int> {};
 
-  ItemState get initialState => super.initialState ?? (ItemState(Item(id,0)));
+  ItemBloc._(id);
+  @override
+  InState fromJson(Map<String, dynamic> json) {
+    return null;
+  }
+}
 
-  ItemBloc._(this.id);
+class ItemState extends ModelState<ItemModel>{
+  ItemState(ItemModel bean) : super(bean);
+  @override
+  Widget call() => ItemWidget(item: bean);
+
+}
+
+class ItemModel extends ModelBase{
+  final String id;
+  final int desc;
+  final ItemType type; 
+
+  ItemModel(this.id, this.desc, {this.type = ItemType.trend});
+  @override
+  Map<String, dynamic> toJson() => { 'id': id, 'desc': desc, 'type': type };
 
   @override
-  Stream<ItemState> mapEventToState(
-    ItemEvent event,
-  ) async* {
-    try {
-      yield* event.applyAsync(state, this);
-    } catch (_, stackTrace) {
-      developer.log('$_', name: 'ItemBloc', error: _, stackTrace: stackTrace);
-      yield state;
-    }
-  }
+  List<Object> get props => [id,desc,type];
 
-  @override
-  ItemState fromJson(Map<String, dynamic> json) {
-    return ItemState(Item(json['id'],json['desc']));
-  }
-
-  @override
-  Map<String, dynamic> toJson(ItemState state) {
-    return {'id': state.item.id,'desc': state.item.desc};
-  }
-
-  onProvider(){
-    dependeds[id]+=1;
-    debugPrint('onProvider $id count: ${dependeds[id]}');
-  }
 }

@@ -1,4 +1,3 @@
-
 import 'index.dart';
 
 abstract class StateBase extends Equatable {
@@ -8,12 +7,9 @@ abstract class StateBase extends Equatable {
 }
 
 class UnInitState extends StateBase {
-  @override
   List<Object> get props => ['$runtimeType'];
 
-  @override
   Widget call() => DefaultCircularProgressIndicator();
-
 }
 
 abstract class InState extends StateBase {
@@ -21,7 +17,7 @@ abstract class InState extends StateBase {
   List<Object> get props => ['$runtimeType'];
 }
 
-abstract class DeriveState<Bloc> extends InState {
+abstract class DeriveState extends InState {
   final Map<dynamic,dynamic> params = {};
   @override
   List<Object> get props => ['$runtimeType'];
@@ -32,26 +28,16 @@ abstract class DeriveState<Bloc> extends InState {
 
 abstract class ListState<T> extends InState {
   final List<T> propss;
-
   ListState(this.propss);
 
-  String toString() {
-     return '$runtimeType { ${propss == null ? '' :propss } }';
-  }
-
+  String toString() => '$runtimeType { ${propss??''} }';
   List<Object> get props =>propss;
-
 }
 abstract class ModelState<T extends ModelBase> extends InState{
   final T bean;
-
   ModelState(this.bean);
 
-  // String toString() {
-  //    return '$runtimeType { ${bean == null ? '' :bean.toJson().toString() } }';
-  // }
   String toString()=> '$runtimeType { ${(bean?.toJson())??''} }';
-
   List<Object> get props => [bean];
 }
 

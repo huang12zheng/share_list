@@ -1,26 +1,9 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'index.dart';
-import 'item_model.dart';
-import 'widget/desc.dart';
-
-class ItemState extends Equatable {
-  final Item item;
-  ItemState(this.item);
-
-  @override
-  List<Object> get props => ([item]);
-
-  Widget desc(){
-    return ItemWidget(item: item);
-  }
-
-  Widget detail(){
-    return Text('${item.desc}');
-  }
-}
+import '../../index.dart';
+import '../../item_bloc.dart';
+import '../../item_model.dart';
 
 class ItemWidget extends StatelessWidget {
   const ItemWidget({
@@ -28,7 +11,7 @@ class ItemWidget extends StatelessWidget {
     @required this.item,
   }) : super(key: key);
 
-  final Item item;
+  final ItemModel item;
 
   @override
   Widget build(BuildContext context) {
